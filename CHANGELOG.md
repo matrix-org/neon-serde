@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+## Version 0.9.1
+
+* Update to neon 0.9.1
+
 ## Version 0.8.0
 
 * Update to neon 0.8.0

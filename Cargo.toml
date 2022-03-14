@@ -1,6 +1,6 @@
 [package]
 name = "neon-serde2"
-version = "0.8.0"
+version = "0.9.1"
 authors = [
     "Damir Jelić <poljar@termina.org.uk>",
     "Gabriel Castro <dev@GabrielCastro.ca>"
@@ -15,7 +15,7 @@ serde = "1.0"
 error-chain = "0.12.4"
 
 [dependencies.neon]
-version = "0.8"
+version = "0.9.1"
 default-features = false
 features = ["default-panic-hook", "napi-6", "try-catch-api", "event-queue-api"]
 
