@@ -33,7 +33,7 @@
 //! extern crate neon_serde;
 //! extern crate neon;
 //! #[macro_use]
-//! extern crate serde_derive;
+//! extern crate serde;
 //!
 //! use neon::prelude::*;
 //!
