@@ -2,12 +2,14 @@
 //! Deserialize a `JsValue` into a Rust data structure
 //!
 
-use errors::{Error as LibError, Result as LibResult};
+use crate::errors::{Error as LibError, Result as LibResult};
 use neon::{prelude::*, types::buffer::TypedArray};
-use serde;
-use serde::de::{
-    DeserializeOwned, DeserializeSeed, EnumAccess, MapAccess, SeqAccess, Unexpected, VariantAccess,
-    Visitor,
+use serde::{
+    de::{
+        DeserializeOwned, DeserializeSeed, EnumAccess, MapAccess, SeqAccess, Unexpected,
+        VariantAccess, Visitor,
+    },
+    forward_to_deserialize_any,
 };
 
 /// Deserialize an instance of type `T` from a `Handle<JsValue>`

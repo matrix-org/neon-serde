@@ -2,7 +2,7 @@
 //! Serialize a Rust data structure into a `JsValue`
 //!
 
-use errors::{Error as LibError, Result as LibResult};
+use crate::errors::{Error as LibError, Result as LibResult};
 use neon::{prelude::*, types::buffer::TypedArray};
 use num;
 use serde::{ser, ser::Serialize};
