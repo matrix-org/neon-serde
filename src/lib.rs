@@ -2,7 +2,7 @@
 #![deny(unused_variables)]
 #![deny(unused_mut)]
 #![deny(clippy)]
-#![deny(clippy_pedantic)]
+#![deny(clippy::pedantic)]
 #![allow(stutter)]
 #![recursion_limit = "128"]
 
@@ -30,10 +30,8 @@
 //!
 //! ```rust,no_run
 //! # #![allow(dead_code)]
-//! extern crate neon_serde;
-//! extern crate neon;
-//! #[macro_use]
-//! extern crate serde_derive;
+//! use serde::{Serialize, Deserialize};
+//! use neon_serde2 as neon_serde;
 //!
 //! use neon::prelude::*;
 //!
@@ -73,13 +71,6 @@
 //!
 //! ```
 //!
-
-#[macro_use]
-extern crate error_chain;
-extern crate neon;
-extern crate num;
-#[macro_use]
-extern crate serde;
 
 pub mod de;
 pub mod errors;
