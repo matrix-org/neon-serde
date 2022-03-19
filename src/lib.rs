@@ -30,7 +30,7 @@
 //!
 //! ```rust,no_run
 //! # #![allow(dead_code)]
-//! extern crate neon_serde;
+//! extern crate neon_serde2 as neon_serde;
 //! extern crate neon;
 //! #[macro_use]
 //! extern crate serde;
