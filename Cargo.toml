@@ -12,7 +12,6 @@ readme = "readme.md"
 
 [dependencies]
 serde = "1.0"
-error-chain = "0.12.4"
 
 [dependencies.neon]
 version = "0.10"
