@@ -2,7 +2,7 @@
 #![deny(unused_variables)]
 #![deny(unused_mut)]
 #![deny(clippy)]
-#![deny(clippy_pedantic)]
+#![deny(clippy::pedantic)]
 #![allow(stutter)]
 #![recursion_limit = "128"]
 

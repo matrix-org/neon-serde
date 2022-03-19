@@ -76,7 +76,9 @@ impl<'x, 'd, 'a, 'j, C: Context<'j>> serde::de::Deserializer<'x>
             visitor.visit_string(val.value(self.cx))
         } else if let Ok(val) = self.input.downcast::<JsNumber, C>(self.cx) {
             let v = val.value(self.cx);
+            #[allow(clippy::float_cmp)]
             if v.trunc() == v {
+                #[allow(clippy::cast_possible_truncation)]
                 visitor.visit_i64(v as i64)
             } else {
                 visitor.visit_f64(v)
