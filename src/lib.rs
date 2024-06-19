@@ -28,14 +28,12 @@
 //!
 //! ## Example
 //!
-//! ```rust,no_run
-//! # #![allow(dead_code)]
-//! extern crate neon_serde;
+//! ```{.ignore .rust}
 //! extern crate neon;
-//! #[macro_use]
-//! extern crate serde_derive;
-//!
+//! extern crate serde;
+//! 
 //! use neon::prelude::*;
+//! use serde::{Serialize, Deserialize};
 //!
 //! #[derive(Serialize, Debug, Deserialize)]
 //! struct AnObject {

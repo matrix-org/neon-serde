@@ -2,13 +2,14 @@
 //! Serialize a Rust data structure into a `JsValue`
 //!
 
-use errors::Error;
-use errors::ErrorKind;
-use errors::Result as LibResult;
+use crate::errors::Error;
+use crate::errors::ErrorKind;
+use crate::errors::Result as LibResult;
 use neon::prelude::*;
 use serde::ser::{self, Serialize};
 use std::marker::PhantomData;
 use num;
+use neon::types::buffer::TypedArray;
 
 fn as_num<T: num::cast::NumCast, OutT: num::cast::NumCast>(n: T) -> LibResult<OutT> {
     match num::cast::<T, OutT>(n) {
@@ -192,8 +193,8 @@ where
 
     #[inline]
     fn serialize_bytes(self, v: &[u8]) -> Result<Self::Ok, Self::Error> {
-        let mut buff = JsBuffer::new(self.cx, as_num::<_, u32>(v.len())?)?;
-        self.cx.borrow_mut(&mut buff, |buff| buff.as_mut_slice().clone_from_slice(v));
+        let mut buff = JsBuffer::new(self.cx, as_num::<_, usize>(v.len())?)?;
+        buff.as_mut_slice(self.cx).clone_from_slice(v);
         Ok(buff.upcast())
     }
 
