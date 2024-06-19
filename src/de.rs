@@ -2,14 +2,15 @@
 //! Deserialize a `JsValue` into a Rust data structure
 //!
 
-use errors::Error as LibError;
-use errors::ErrorKind;
-use errors::Result as LibResult;
+use crate::errors::Error as LibError;
+use crate::errors::ErrorKind;
+use crate::errors::Result as LibResult;
 use neon::prelude::*;
 use serde;
 use serde::de::Visitor;
 use serde::de::{DeserializeOwned, DeserializeSeed, EnumAccess, MapAccess, SeqAccess, Unexpected,
                 VariantAccess};
+use neon::types::buffer::TypedArray;
 
 /// Deserialize an instance of type `T` from a `Handle<JsValue>`
 ///
@@ -117,7 +118,8 @@ impl<'x, 'd, 'a, 'j, C: Context<'j>> serde::de::Deserializer<'x> for &'d mut Des
                     len
                 )))?
             }
-            let key = prop_names.get(self.cx, 0)?.downcast::<JsString, C>(self.cx).or_throw(self.cx)?;
+            let key: Handle<'j, JsValue> = prop_names.get(self.cx, 0)?;
+            let key = key.downcast::<JsString, C>(self.cx).or_throw(self.cx)?;
             let enum_value = val.get(self.cx, key)?;
             let key_value = key.value(self.cx);
             visitor.visit_enum(JsEnumAccess::new(self.cx, key_value, Some(enum_value)))
@@ -132,7 +134,7 @@ impl<'x, 'd, 'a, 'j, C: Context<'j>> serde::de::Deserializer<'x> for &'d mut Des
         V: Visitor<'x>,
     {
         let buff = self.input.downcast::<JsBuffer, C>(self.cx).or_throw(self.cx)?;
-        let copy = self.cx.borrow(&buff, |buff| Vec::from(buff.as_slice()));
+        let copy = Vec::from(buff.as_slice(self.cx));
         visitor.visit_bytes(&copy)
     }
 
@@ -141,7 +143,7 @@ impl<'x, 'd, 'a, 'j, C: Context<'j>> serde::de::Deserializer<'x> for &'d mut Des
         V: Visitor<'x>,
     {
         let buff = self.input.downcast::<JsBuffer, C>(self.cx).or_throw(self.cx)?;
-        let copy = self.cx.borrow(&buff, |buff| Vec::from(buff.as_slice()));
+        let copy = Vec::from(buff.as_slice(self.cx));
         visitor.visit_byte_buf(copy)
     }
 
@@ -249,7 +251,7 @@ impl<'x, 'a, 'j, C: Context<'j>> MapAccess<'x> for JsObjectAccess<'a, 'j, C> {
         if self.idx >= self.len {
             return Err(ErrorKind::ArrayIndexOutOfBounds(self.len, self.idx))?;
         }
-        let prop_name = self.prop_names.get(self.cx, self.idx)?;
+        let prop_name: Handle<'j, JsValue> = self.prop_names.get(self.cx, self.idx)?;
         let value = self.input.get(self.cx, prop_name)?;
 
         self.idx += 1;
